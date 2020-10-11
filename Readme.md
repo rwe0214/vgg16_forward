@@ -1,5 +1,8 @@
 # VGG16
 
+[![hackmd-github-sync-badge](https://hackmd.io/bC3GmR5uSHGdvz9DxKV-xw/badge)](https://hackmd.io/bC3GmR5uSHGdvz9DxKV-xw)
+
+
 
 
 Implement a simple vgg16 network architecture only with forward pass
