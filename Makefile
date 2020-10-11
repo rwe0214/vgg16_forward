@@ -20,7 +20,7 @@ SHELL_HACK := $(shell mkdir -p $(OUTDIR))
 .PHONY: all clean run debug OUT
 
 format:
-	clang-format -i $(SRCDIR)/*.cpp
+	clang-format -i $(SRCDIR)/*.cpp $(SRCDIR)/*.h
 
 run:
 	./$(EXE)
