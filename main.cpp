@@ -27,8 +27,10 @@ int main()
 
     double4d conv_output;
     double2d vgg_output;
-    printf("Layer\t\tOutput shape\t\t\tParam #\t\tMAC #\n");
-    printf("===========================================================================\n");
+    printf("Layer\t\tMemory size\t\t\tParam #\t\tMAC #\n");
+    printf(
+        "======================================================================"
+        "=====\n");
     conv_output = conv_layer(input, "conv1_1", filters, biases);
     conv_output = conv_layer(conv_output, "conv1_2", filters, biases);
     conv_output = pool_layer(conv_output, "max_pooling_1", 2, 2);
@@ -55,7 +57,9 @@ int main()
     vgg_output = fc_layer(vgg_output, "fc1_4096", 4096);
     vgg_output = fc_layer(vgg_output, "fc2_4096", 4096);
     vgg_output = fc_layer(vgg_output, "fc3_1000", 1000);
-    printf("============================================================\n");
+    printf(
+        "======================================================================"
+        "=====\n");
 
     return 0;
 }

@@ -86,9 +86,11 @@ double4d conv_layer(double4d input,
      */
     double4d output = create_d4d(input[0][0].size(), input[0][0][0].size(),
                                  filter.size(), input.size(), false);
-    printf("%s\t\t(%lu, %lu, %lu, %lu)\t\t%lu\t\t", layer_name.c_str(),
-           output.size(), output[0][0].size(), output[0][0][0].size(),
-           output[0].size(),
+    printf("%s\t\t%lu*%lu*%lu*%lu = %-10lu\t%-8lu\t", layer_name.c_str(),
+           input.size(), input[0][0].size(), input[0][0][0].size(),
+           input[0].size(),
+           input.size() * input[0][0].size() * input[0][0][0].size() *
+               input[0].size(),
            filter[0][0].size() * filter[0][0][0].size() * filter[0].size() *
                    filter.size() +
                bias.size());
@@ -135,9 +137,11 @@ double4d pool_layer(double4d input,
     int numbers = (int) input.size();
     double max;
     double4d output = create_d4d(size, size, channels, numbers, false);
-    printf("%s\t(%lu, %lu, %lu, %lu)  \t\t0\n", layer_name.c_str(),
-           output.size(), output[0][0].size(), output[0][0][0].size(),
-           output[0].size());
+    printf("%s\t%lu*%lu*%lu*%lu = %-10lu\t0\n", layer_name.c_str(),
+           input.size(), input[0][0].size(), input[0][0][0].size(),
+           input[0].size(),
+           input.size() * input[0][0].size() * input[0][0][0].size() *
+               input[0].size());
 
     for (int n = 0; n < numbers; n++) {
         for (int m = 0; m < channels; m++) {
@@ -216,8 +220,9 @@ double2d fc_layer(double2d input, string layer_name, int size)
         for (unsigned j = 0; j < params[i].size(); j++)
             params[i][j] = (double) (rand() % 10);
     }
-    printf("%s\t(1, 1, %lu, %lu)\t\t\t%lu\t\t", layer_name.c_str(), output.size(),
-           output[0].size(), params.size() * params[0].size() + bias[0].size());
+    printf("%s\t1*1*%lu*%lu = %-12lu\t%-8lu\t", layer_name.c_str(),
+           input.size(), input[0].size(), input.size() * input[0].size(),
+           params.size() * params[0].size() + bias[0].size());
     int macs = 0;
     for (unsigned n = 0; n < output.size(); n++) {
         for (unsigned k = 0; k < output[n].size(); k++) {
