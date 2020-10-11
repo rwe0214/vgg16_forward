@@ -28,6 +28,7 @@ $ make run
 
 
 ```shell
+$ make run
 ./vgg16
 Layer		Memory size			Param #		MAC #
 ===========================================================================
