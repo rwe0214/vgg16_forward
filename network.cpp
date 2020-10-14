@@ -2,65 +2,17 @@
 
 #include <cstdio>
 #include <ctime>
-#include <iostream>
 #include <limits>
 
-/*
- * TODO: parallel for loop
- */
-double4d create_d4d(int height,
-                    int width,
-                    int channels,
-                    int numbers,
-                    bool random)
-{
-    srand(time(NULL));
-    double4d new_fmap;
-    new_fmap.resize(numbers);
-    for (unsigned n = 0; n < new_fmap.size(); n++) {
-        new_fmap[n].resize(channels);
-        for (unsigned c = 0; c < new_fmap[n].size(); c++) {
-            new_fmap[n][c].resize(width);
-            for (unsigned i = 0; i < new_fmap[n][c].size(); i++) {
-                new_fmap[n][c][i].resize(height);
-                for (unsigned j = 0; j < new_fmap[n][c][i].size(); j++)
-                    new_fmap[n][c][i][j] =
-                        random ? (double) (rand() % 256) : 0.0;
-            }
-        }
-    }
-    return new_fmap;
-}
-
-void init_filters(map<string, double4d> *filters, string *f_names, int2d sizes)
-{
-    for (unsigned i = 0; i < sizes.size(); i++) {
-        double4d tmp = create_d4d(sizes[i][0], sizes[i][1], sizes[i][2],
-                                  sizes[i][3], true);
-        filters->insert(pair<string, double4d>(f_names[i], tmp));
-    }
-}
-
-void init_biases(map<string, vector<double> > *biases,
-                 string *b_names,
-                 int2d sizes)
-{
-    srand(time(NULL));
-    for (unsigned i = 0; i < sizes.size(); i++) {
-        vector<double> tmp(sizes[i][3]);
-        for (int j = 0; j < sizes[i][3]; j++)
-            tmp[j] = rand() % 10;
-        biases->insert(pair<string, vector<double> >(b_names[i], tmp));
-    }
-}
+using namespace std;
 
 /*
  * TODO: parallel for loop
  */
 double4d conv_layer(double4d input,
                     string layer_name,
-                    map<string, double4d> filters,
-                    map<string, vector<double> > biases)
+                    double4d filter,
+                    vector<double> bias)
 {
     // zero-padding and padding-size = 1
     int padding_size = 1;
@@ -79,8 +31,8 @@ double4d conv_layer(double4d input,
     }
 
     int U = 1;  // stride
-    double4d filter = get_filter(filters, layer_name);
-    vector<double> bias = get_bias(biases, layer_name);
+    // double4d filter = get_filter(filters, layer_name);
+    // vector<double> bias = get_bias(biases, layer_name);
     /* output's (height, width, channel, numbers)
      *        = (input_height, input_width, filter_numbers, input_numbers);
      */
@@ -235,18 +187,4 @@ double2d fc_layer(double2d input, string layer_name, int size)
     }
     printf("%d\n", macs);
     return output;
-}
-
-double4d get_filter(map<string, double4d> filters, string name)
-{
-    map<string, double4d>::iterator iter;
-    iter = filters.find(name);
-    return iter->second;
-}
-
-vector<double> get_bias(map<string, vector<double> > biases, string name)
-{
-    map<string, vector<double> >::iterator iter;
-    iter = biases.find(name);
-    return iter->second;
 }
