@@ -15,10 +15,10 @@ Implement a simple vgg16 network architecture only with forward pass
 
 ```shell
 $ make
-g++ -std=c++11 -g -Wall -c -o .out/main.o main.cpp
-g++ -std=c++11 -g -Wall -c -o .out/network.o network.cpp
-g++ -std=c++11 -g -Wall -c -o .out/utils.o utils.cpp
-g++ -std=c++11 -g -Wall -c -o .out/vgg16.o vgg16.cpp
+g++ -std=c++11 -g -Wall -c -o .out/main.o src/main.cpp
+g++ -std=c++11 -g -Wall -c -o .out/network.o src/network.cpp
+g++ -std=c++11 -g -Wall -c -o .out/utils.o src/utils.cpp
+g++ -std=c++11 -g -Wall -c -o .out/vgg16.o src/vgg16.cpp
 g++ -std=c++11 -g -Wall -o vgg16 .out/main.o .out/network.o .out/utils.o .out/vgg16.o
 $ make run
 ```
